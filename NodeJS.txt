@@ -1,0 +1,108 @@
+##############################################################################
+######################## NODE.JS #############################################
+##############################################################################
+
+*) 'window' in browser = 'global' in node.
+*) 'document' in HTML = 'process' in node.
+
+*) what is nodeJS?
+Node is a javascript runtime that uses the V8 Engine.
+
+*) what is V8 engine?
+Open source javascript engine written in C++ that takes javascript code and compiles it to machine code. It is used inside of nodeJS and 
+it is used inside of chrome browser.
+
+*) Why should I use nodeJS?
+Node has non-blocking I/O operations(reduces the time taken to half) and has fantastic community of developers who has already done what you are looking for.
+
+*) Initializing a node.js project: 'npm init'
+*) Using require in nodeJS:
+	1) using nodejs.org modules.
+	2) using our local modules.
+	3) using third party module installed in our app. 
+		'npm install lodash --save'      (--save make lodash's entry in the package.json.)
+		(node is going to look for the module in our app's core module, 
+		if it is not going to find it there, it is going to look under node_modules.)
+		
+		*) Remove node_modules folder for sharing the code. The users can run 'npm install' to build all the node_modules on their local 
+		which will use package.json which already has the entries.
+		
+*) Using nodemon: (don't need to restart app.js again and again, great for local development.)
+	- 'npm install nodemon -global'
+	- 'nodemon app.js'
+	
+*) Command line arguments: accessed using 'process.argv' <- array of arguments.
+	- One better module for accessing command line arguments is 'yargs' which provides key value pair support.
+	
+*) Debugging NodeJS via command line: 
+	- 'node inspect app.js read --title secret3'  or 'nodemon'
+	- use list(10) to show 10 lines from start.
+	- use 'n' to move to next line.
+	- use 'c' to move to next 'debugger' or end of js file.
+	- use 'debugger;' to add a breakpoint in code. use 'c' to reach this breakpoint directly.
+
+*) Debugging NodeJS using chrome dev tools:
+	- 'node --inspect-brk app.js read --title secret3'  or 'nodemon'
+	- now goto chrome://inspect
+	- now click the 'Open dedicated DevTools for Node'.
+	- now debug normally.(can also chnage values using console in chrome.)
+	- 'debugger;' in code will be a break point here also.
+
+*) Arrow functions: When to use, when not to:
+	- use it when there is no need of 'this' or 'arguments' keyword inside the body.
+	- not recommended to use inside objects. Inside objects, go for normal functions.
+	
+*) Async functions in NodeJS:
+	-There are 4 components using which a normal javascript in NodeJS gets executed:
+		1) Call stack.
+		2) Node APIs
+		3) Callback Queue
+		4) Event Loop
+		
+		[Working]: 	Async functions go to Node APIs from call stack and call stack continues with execution of further code. 
+			After async functions finishes executing(or waiting in case of setTimeout), 
+			their callback are transferred to callback queue and wait for event loop to move them into call stack. 
+			Event loop constantly checks if call stack is empty. As soon as call stack become empty, 
+			event loop moves the callback function in queue to call stack to be executed.
+*) Using express as server:
+	- const express=require('require');
+	- var app=express();
+	
+*) By default, nodemon doesnt watch handlebars, to add the support for watching them, use 'nodemon server.js -e js,hbs'   // 'e' for extensions
+
+*) If express doesnt do something the you can add middleware and teach express how to do it.
+	-register middleware(using app.use), e.g. teach express how to use static content, "express.static(__dirname+'/public')" => middleware function
+		- example: app.use(express.static(__dirname+'/public'));
+	
+*) Usinf MOCHA framework for testing:
+	*) npm i mocha --save-dev
+		- 'i' or 'install'
+		- this module will be added as dev-dependencies instead of dependencies in package.json.
+		- dev-dependencies modules dont go in deployments e.g. these files will not be copied to heroku.	
+	*) It runs all the files with extension .test.js inside project. (this extension can be changed in package.json)
+
+*) Using nodemon for testing:
+	- nodemon --exec \"npm test\"
+	- Or in package.json:
+		add inside scripts: "test-watch":"nodemon --exec \"npm test\""    //custom scripts
+			run it using npm run test-watch
+			
+*) Testing asynhronous functions:
+	- use argument 'done' and call it in the callback of asynchronous function. e.g. it('test message',(done) => { done(); inside callback of async function.})
+	
+*) Testing express applications:
+	- use 'supertest' module made by expressJS people.
+
+*) Use describe('heading',()=>{test-cases}) to organize your test-cases.
+
+*) In mongodb: default objectID is combination of timestamp,machine identifier, process id and a random number.
+	- we can specify our own id by adding a field _id:123
+
+	
+*) Chat app additional features
+ 1) Make room name case-insensitive (no duplicate rooms)
+ 2) User name unique (If user with same name login from two or more tabs, they should appear in people tab only once)
+ 3) On login page, Room name => Dropdown containing list of available rooms 
+	
+	
+	
